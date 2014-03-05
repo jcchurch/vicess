@@ -23,8 +23,10 @@ class View:
         (cursorx, cursory) = self.__model.getCursor()
 
         # Special Case: Cursor Moves Home
-        if cursorx == 0 and cursory == 0:
+        if cursorx == 0:
             self.__firstColumn = 0
+
+        if cursory == 0:
             self.__firstRow = 0
 
         if cursorx < self.__firstColumn:

@@ -18,7 +18,10 @@ class Sheet:
         return self.__pages[pagename].getCell(address)
 
     def getPublicObject(self):
-        return {name:self.__pages[name].getPublicObject() for name in self.__pages}
+        c = {}
+        for name in self.__pages:
+            c[name] = self.__pages[name].getPublicObject()
+        return c
 
     def loadPublicObject(self, jsonObject):
         for name in jsonObject:

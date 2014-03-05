@@ -29,4 +29,7 @@ class Page:
         return self.__cells[address].getFormat()
 
     def getPublicObject(self):
-        return {address:self.__cells[address].getPublicObject() for address in self.__cells}
+        c = {}
+        for address in self.__cells:
+            c[address] = self.__cells[address].getPublicObject()
+        return c

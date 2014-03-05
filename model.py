@@ -9,8 +9,7 @@ class Model:
         self.__cursory = 0
         self.__lastCommand = ""
 
-        if filename is not None:
-            self.loadFile(filename)
+        self.loadFile(filename)
 
     def getCursor(self):
         return (self.__cursorx, self.__cursory)
@@ -54,12 +53,14 @@ class Model:
         return self.__lastCommand
 
     def loadFile(self, filename):
-        # I should really return an error here.
         if filename is not None:
-            f = open(filename)
-            jsonContent = json.loads(f.read())
-            f.close()
-            self.__sheet.loadPublicObject(jsonContent)
+            try:
+                f = open(filename)
+                jsonContent = json.loads(f.read())
+                f.close()
+                self.__sheet.loadPublicObject(jsonContent)
+            except IOError:
+                pass
 
     def saveFile(self, filename=None):
         if filename is not None:
@@ -67,12 +68,14 @@ class Model:
         else:
             filename = self.__filename
 
-        # I should really return an error here.
         if filename is not None:
-            jsonContent = json.dumps(self.__sheet.getPublicObject())
-            f = open(self.__filename, 'w')
-            f.write(jsonContent)
-            f.close()
+            try:
+                jsonContent = json.dumps(self.__sheet.getPublicObject())
+                f = open(self.__filename, 'w')
+                f.write(jsonContent)
+                f.close()
+            except IOError:
+                print "Permission denied in writing file. Maybe write-protected."
 
     def codeToPair(self, code):
         # This is very hackish.

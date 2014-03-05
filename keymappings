@@ -1,0 +1,19 @@
+# General plan. This file will contain all
+# default key mappings.
+#
+# Everything after the first '#' is ignored.
+# The '#' cannot be used in a keymapping.
+#
+# Each line will contain a action name 
+# name and will be followed by 1 or more
+# characters (separated by spaces) that
+# activate that action
+
+reset_command_state 
+cursor_left h
+cursor_down j
+cursor_up k
+cursor_right l
+insert i
+save_and_quit Z Z
+quit q
