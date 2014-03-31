@@ -13,18 +13,20 @@ class KeyMap:
         for line in file(configurationFile):
             # Remove everything after the first '#'
             actionline = line.split("#")[0]
+            actionline = actionline.strip()
 
             # Reduce all space collections to 1 (and strip)
-            actionline = re.sub("\s+", " ", actionline).strip()
-
             if len(actionline) > 0:
-                parts = actionline.split(" ")
-                assert(len(parts) >= 2)
+                parts = actionline.split(":")
+                assert(len(parts) == 2)
 
-                action = parts[0]
-                sequence = parts[1:]
+                actions_part = parts[0]
+                sequence_part = parts[1]
 
-                self.addAction(self.__keytree, sequence, action)
+                actions = re.sub("\s+", "", actions_part).strip()
+                sequence = re.sub("\s+", " ", sequence_part).strip().split(" ")
+
+                self.addAction(self.__keytree, sequence, actions)
 
     def addAction(self, tree, sequence, action):
         # We add the first element of sequence to this tree
@@ -40,11 +42,17 @@ class KeyMap:
 
         if sequence[0] not in tree:
             tree[sequence[0]] = {}
-        
+
         self.addAction(tree[sequence[0]], sequence[1:], action)
 
     def addCommand(self, ch):
-        self.__commandSequence.append(ch)
+        try: 
+            self.__commandSequence.append(chr(ch))
+        except:
+            pass
+
+    def tree(self):
+        return self.__keytree
 
     def reset(self):
         self.__commandSequence = []
@@ -65,4 +73,5 @@ class KeyMap:
         if type(action) == type(""):
             self.reset()
             return action
+
         return None

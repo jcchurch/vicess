@@ -3,13 +3,10 @@ import simplestring
 
 class View:
     def __init__(self, model):
-        self.__model = model
+        self.__model = model 
+        self.__cursor = model.getCursor()
         self.__firstColumn = 0
         self.__firstRow = 0
-
-    def getInputLine(self, stdscr):
-        (maxy, maxx) = stdscr.getmaxyx()
-        return (15, maxy-1)
 
     def update(self, stdscr):
         (maxy, maxx) = stdscr.getmaxyx()
@@ -20,7 +17,7 @@ class View:
         ncolumns = int((maxx-label_column_width)/cell_width)
         nrows = maxy-2
 
-        (cursorx, cursory) = self.__model.getCursor()
+        (cursorx, cursory) = self.__cursor.getCursor()
 
         # Special Case: Cursor Moves Home
         if cursorx == 0:
@@ -45,7 +42,7 @@ class View:
         stdscr.addstr(0, 0, " "*label_column_width, curses.A_REVERSE) 
         for col in range(ncolumns):
             realCol = col+self.__firstColumn
-            displayColumn = self.__model.columnCode(realCol)
+            displayColumn = self.__cursor.columnCode(realCol)
             formatContent = simplestring.justify(displayColumn, cell_width, 'center')
 
             if cursorx == realCol:
@@ -56,7 +53,7 @@ class View:
         # Remaining Rows
         for row in range(nrows):
             realRow = row+self.__firstRow
-            displayRow = self.__model.rowCode(realRow)
+            displayRow = self.__cursor.rowCode(realRow)
             formatContent = simplestring.justify(displayRow, label_column_width, 'right')
 
             if cursory == realRow:
@@ -66,10 +63,11 @@ class View:
 
             for col in range(ncolumns):
                 realCol = col+self.__firstColumn
-                cell = self.__model.getCell(realCol, realRow)
-                form = self.__model.getCellFormat(realCol, realRow)
+                address = self.__cursor.pairToCode((realCol, realRow))
+                cell = self.__model.getSheet().getCell(address)
+                form = self.__model.getSheet().getCellFormat(address)
 
-                formatContent = simplestring.justify(self.__model.getCell(realCol, realRow), cell_width, 'center')
+                formatContent = simplestring.justify(self.__model.getSheet().getCell(address), cell_width, 'center')
 
                 if cursorx == realCol and cursory == realRow:
                     stdscr.addstr(row+1, label_column_width+col*cell_width, formatContent, curses.A_REVERSE) 
@@ -78,6 +76,6 @@ class View:
 
         c = self.__model.getLastCommand()
         if c != "":
-            code = self.__model.pairToCode((cursorx, cursory))
+            code = self.__cursor.pairToCode((cursorx, cursory))
             formatContent = simplestring.justify('|'+c+"| "+code+": ", 15, 'right')
             stdscr.addstr(maxy-1, 0, formatContent)

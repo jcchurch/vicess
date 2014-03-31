@@ -1,6 +1,5 @@
 import optparse 
-from sheet import Sheet
-from model import Model
+from model import Model 
 from view import View
 from controller import Controller
 
@@ -14,8 +13,7 @@ if __name__ == '__main__':
     if len(arguments) > 0:
         filename = arguments[0]
 
-    S = Sheet()
-    M = Model(S, filename)
+    M = Model(filename)
     V = View(M)
     C = Controller()
 

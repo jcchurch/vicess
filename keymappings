@@ -4,16 +4,17 @@
 # Everything after the first '#' is ignored.
 # The '#' cannot be used in a keymapping.
 #
-# Each line will contain a action name 
-# name and will be followed by 1 or more
-# characters (separated by spaces) that
-# activate that action
+# Each line will contain a sequence of one
+# or more actions separated by commas followed
+# by a colon, then will be followed by one
+# or more characters (separated by spaces)
+# that activate that sequence of actions
 
-reset_command_state 
-cursor_left h
-cursor_down j
-cursor_up k
-cursor_right l
-insert i
-save_and_quit Z Z
-quit q
+reset_command_state: 
+cursor_left: h
+cursor_down: j
+cursor_up: k
+cursor_right: l
+insert: i
+save,quit: Z Z
+quit: q

@@ -3,19 +3,31 @@ from page import Page
 class Sheet:
     def __init__(self): 
         self.__pages = {}
-        self.__pages["Main"] = Page()
+        self.__current = "Main"
+        self.__pages[self.__current] = Page()
 
-    def updateCellContent(self, pagename, address, content):
-        self.__pages[pagename].updateCellContent(address, content)
+    def getCurrentPage(self):
+        return self.__pages[self.__current]
 
-    def updateCellFormat(self, pagename, address, form):
-        self.__pages[pagename].updateCellFormat(address, form)
+    def getLastRowInPage(self, col):
+        rows = self.__pages[self.__current].getRowAddresses(col)
+        return rows[-1]
 
-    def getCell(self, pagename, address):
-        return self.__pages[pagename].getCell(address)
+    def getLastColInPage(self, row):
+        columns = self.__pages[self.__current].getColumnAddresses(row)
+        return columns[-1]
 
-    def getCellFormat(self, pagename, address):
-        return self.__pages[pagename].getCell(address)
+    def updateCellContent(self, address, content):
+        self.__pages[self.__current].updateCellContent(address, content)
+
+    def updateCellFormat(self, address, form):
+        self.__pages[self.__current].updateCellFormat(address, form)
+
+    def getCell(self, address):
+        return self.__pages[self.__current].getCell(address)
+
+    def getCellFormat(self, address):
+        return self.__pages[self.__current].getCell(address)
 
     def getPublicObject(self):
         c = {}
@@ -28,5 +40,6 @@ class Sheet:
             for address in jsonObject[name]:
                 content = jsonObject[name][address]['content']
                 form = jsonObject[name][address]['format']
-                self.updateCellContent(name, address, content)
-                self.updateCellFormat(name, address, form)
+                page = self.getCurrentPage()
+                page.updateCellContent(address, content)
+                page.updateCellFormat(address, form)
