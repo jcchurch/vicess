@@ -6,28 +6,8 @@ class Sheet:
         self.__current = "Main"
         self.__pages[self.__current] = Page()
 
-    def getCurrentPage(self):
+    def getPage(self):
         return self.__pages[self.__current]
-
-    def getLastRowInPage(self, col):
-        rows = self.__pages[self.__current].getRowAddresses(col)
-        return rows[-1]
-
-    def getLastColInPage(self, row):
-        columns = self.__pages[self.__current].getColumnAddresses(row)
-        return columns[-1]
-
-    def updateCellContent(self, address, content):
-        self.__pages[self.__current].updateCellContent(address, content)
-
-    def updateCellFormat(self, address, form):
-        self.__pages[self.__current].updateCellFormat(address, form)
-
-    def getCell(self, address):
-        return self.__pages[self.__current].getCell(address)
-
-    def getCellFormat(self, address):
-        return self.__pages[self.__current].getCell(address)
 
     def getPublicObject(self):
         c = {}
@@ -40,6 +20,6 @@ class Sheet:
             for address in jsonObject[name]:
                 content = jsonObject[name][address]['content']
                 form = jsonObject[name][address]['format']
-                page = self.getCurrentPage()
+                page = self.getPage()
                 page.updateCellContent(address, content)
                 page.updateCellFormat(address, form)

@@ -64,10 +64,10 @@ class View:
             for col in range(ncolumns):
                 realCol = col+self.__firstColumn
                 address = self.__cursor.pairToCode((realCol, realRow))
-                cell = self.__model.getSheet().getCell(address)
-                form = self.__model.getSheet().getCellFormat(address)
+                cell = self.__model.getSheet().getPage().getCell(address)
+                form = self.__model.getSheet().getPage().getCellFormat(address)
 
-                formatContent = simplestring.justify(self.__model.getSheet().getCell(address), cell_width, 'center')
+                formatContent = simplestring.justify(self.__model.getSheet().getPage().getCell(address), cell_width, 'center')
 
                 if cursorx == realCol and cursory == realRow:
                     stdscr.addstr(row+1, label_column_width+col*cell_width, formatContent, curses.A_REVERSE) 
