@@ -3,7 +3,7 @@ from fileio import FileIO
 from cursor import Cursor
 
 class Model:
-    def __init__(self, filename):
+    def __init__(self, filename=None):
         self.__sheet = Sheet()
         self.__cursor = Cursor()
         self.__io = FileIO(filename)
