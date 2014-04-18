@@ -47,7 +47,7 @@ class KeyMap:
 
     def addCommand(self, ch):
         try: 
-            self.__commandSequence.append(chr(ch))
+            self.__commandSequence.append(ch)
         except:
             pass
 

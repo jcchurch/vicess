@@ -43,7 +43,13 @@ class Cursor:
     def setCellAtCursor(self, sheet, s):
         code = self.pairToCode((self.__cursorx, self.__cursory))
         page = sheet.getPage()
-        page.updateCellContent(code, s)
+        cell = page.getCell(code)
+        cell.update(s)
+
+    def getCell(self, sheet):
+        code = self.pairToCode((self.__cursorx, self.__cursory))
+        page = sheet.getPage()
+        return page.getCell(code)
 
     def codeToPair(self, code):
         # This is very hackish.

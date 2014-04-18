@@ -3,6 +3,7 @@ class Cell:
         self.__form = ""
         self.__content = ""
         self.__type = "Text"
+        self.__numericValue = 0
 
     def __init__(self, content="", form=""):
         self.update(content, form)
@@ -14,7 +15,7 @@ class Cell:
                 self.__type = "Formula"
             else:
                 try:
-                    float(self.__content)
+                    self.__numericValue = float(self.__content)
                     self.__type = "Numeric"
                 except:
                     pass
@@ -30,6 +31,9 @@ class Cell:
 
     def getRawContent(self):
         return self.__content
+
+    def getNumerical(self):
+        return self.__numericValue
 
     def getFormat(self):
         return self.__form

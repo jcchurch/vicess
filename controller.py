@@ -29,6 +29,6 @@ class Controller:
             view.update(self.__stdscr)
             c = self.__stdscr.getch() 
             model.echoCommand(str(c))
-            km.addCommand(c)
+            km.addCommand(ch(c))
             demands = km.translate()
             ac.do(demands)

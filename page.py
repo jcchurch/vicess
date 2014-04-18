@@ -4,23 +4,11 @@ class Page:
     def __init__(self): 
         self.__cells = {}
 
-    def updateCellContent(self, address, content):
-        if address not in self.__cells:
-            self.__cells[address] = Cell(content)
-        else:
-            self.__cells[address].update(content)
-
-    def updateCellFormat(self, address, form):
-        if address not in self.__cells:
-            self.__cells[address] = Cell("", form)
-        else:
-            self.__cells[address].updateFormat(form)
-
     def getCell(self, address):
         if address not in self.__cells:
-            return ""
+            self.__cells[address] = Cell()
 
-        return self.__cells[address].getRawContent()
+        return self.__cells[address]
 
     def getColAddresses(self, row):
         coladdys = []
@@ -39,12 +27,6 @@ class Page:
                 rowaddys.append((int(parts(1)), address))
         rowaddys.sort(key=lambda x: x[0])
         return [x[1] for x in rowaddys]
- 
-    def getCellFormat(self, address):
-        if address not in self.__cells:
-            return ""
-
-        return self.__cells[address].getFormat()
 
     def getPublicObject(self):
         c = {}
